@@ -14,8 +14,14 @@ const options: Options = {
     },
     servers: [
       {
-        url: "http://localhost:8080",
-        description: "Development server",
+        url:
+          process.env.NODE_ENV === "development"
+            ? "http://localhost:8080"
+            : process.env.BASE_URL,
+        description:
+          process.env.NODE_ENV === "development"
+            ? "Development server"
+            : "Production server",
       },
     ],
   },
