@@ -45,8 +45,8 @@ export const errorHandler = (
   res: express.Response,
   next: express.NextFunction
 ) => {
-  let statusCode = 500;
-  let message = "Internal server error";
+  let statusCode = res.statusCode || 500;
+  let message = error.message || "Internal server error";
 
   if (error instanceof createHttpError.HttpError) {
     statusCode = error.status;
