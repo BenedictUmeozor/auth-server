@@ -21,3 +21,17 @@ export const registerSchema = z
     message: "Passwords must match",
     path: ["confirmPassword"],
   });
+
+export const loginSchema = z.object({
+  email: z.string().email("Invalid email address").min(1, "Email is required"),
+  password: z.string().min(1, "Password is required"),
+});
+
+export const emailResendSchema = z.object({
+  email: z.string().email("Invalid email address").min(1, "Email is required"),
+});
+
+export const verifyEmailSchema = z.object({
+  otp: z.string().min(1, "OTP is required").max(6, "Invalid OTP"),
+  email: z.string().email("Invalid email address").min(1, "Email is required"),
+});

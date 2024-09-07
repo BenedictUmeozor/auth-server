@@ -7,6 +7,7 @@ import { errorHandler, logger, notFound } from "./middleware";
 import mongoose from "mongoose";
 import swaggerUi from "swagger-ui-express";
 import swaggerSpec from "./lib/swagger";
+import authRoutes from "./routes/auth";
 
 dotenv.config();
 
@@ -23,6 +24,8 @@ app.get("/", (req: express.Request, res: express.Response) => {
   res.sendFile("public/index.html");
 });
 app.use("/api-docs", swaggerUi.serve, swaggerSpec);
+
+app.use("/auth", authRoutes);
 
 app.use(notFound);
 app.use(errorHandler);

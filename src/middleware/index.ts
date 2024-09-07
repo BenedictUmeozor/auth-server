@@ -1,6 +1,6 @@
 import express from "express";
 import createHttpError from "http-errors";
-import { z, ZodSchema } from "zod";
+import { z, ZodError, ZodSchema } from "zod";
 
 export const logger = (
   req: express.Request,
@@ -45,12 +45,16 @@ export const errorHandler = (
   res: express.Response,
   next: express.NextFunction
 ) => {
-  let statusCode = res.statusCode || 500;
+  let statusCode = 500;
   let message = error.message || "Internal server error";
 
   if (error instanceof createHttpError.HttpError) {
     statusCode = error.status;
     message = error.message;
+    if (error?.details) {
+      res.status(statusCode).json({ message, details: error.details });
+      return;
+    }
   }
 
   res.status(statusCode).json({ message });

@@ -5,9 +5,8 @@ export interface User {
   isVerified: boolean;
 }
 
-export interface MailOptions {
-  from: string;
-  to: string;
-  subject: string;
-  html: string;
+export interface OTP {
+  email: string;
+  otp: string;
+  expiresAt: Date;
 }
