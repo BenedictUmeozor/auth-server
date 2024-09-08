@@ -1,8 +1,8 @@
 import User from "../models/user";
 import OTP from "../models/otp";
 import createHttpError from "http-errors";
-import { generateOTP, validateOTP } from "utils/functions";
-import { sendMail } from "lib/sendgrid";
+import { generateOTP, validateOTP } from "../utils/functions";
+import { sendMail } from "../lib/sendgrid";
 import bcrypt from "bcryptjs";
 
 export const requestPasswordReset = async (email: string) => {
