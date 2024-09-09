@@ -19,7 +19,7 @@ export const registerUser = async (
 
   const hashedPassword = await bcrypt.hash(password, 10);
 
-  const user = new User({
+  const user = await User.create({
     name,
     email,
     password: hashedPassword,
@@ -32,7 +32,7 @@ export const registerUser = async (
 
   const { otp, expiresAt } = generateOTP();
 
-  const userOtp = new OTP({
+  const userOtp = await OTP.create({
     email,
     otp,
     expiresAt,
@@ -49,8 +49,6 @@ export const registerUser = async (
         <p>If you didn't request this OTP, please ignore this email.</p>
         <p>Thank you!</p>`,
   });
-
-  await Promise.all([user.save(), userOtp.save()]);
 
   return { user, token };
 };
@@ -86,13 +84,11 @@ export const sendCode = async (email: string) => {
 
   const { expiresAt, otp } = generateOTP();
 
-  const userOtp = new OTP({
+  const userOtp = await OTP.create({
     email,
     otp,
     expiresAt,
   });
-
-  await userOtp.save();
 
   await sendMail({
     from: process.env.EMAIL_ADDRESS!,

@@ -18,7 +18,7 @@ export const passwordResetRequest = async (
   try {
     const { email } = req.body as PasswordResetRequest;
 
-    const message = await requestPasswordReset(email);
+    const { message } = await requestPasswordReset(email);
 
     res.status(200).json({ message });
   } catch (error) {

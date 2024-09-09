@@ -16,13 +16,11 @@ export const requestPasswordReset = async (email: string) => {
 
   const { otp, expiresAt } = generateOTP();
 
-  const userOTP = new OTP({
+  const userOTP = await OTP.create({
     email,
     otp,
     expiresAt,
   });
-
-  await userOTP.save();
 
   await sendMail({
     from: process.env.EMAIL_ADDRESS!,
@@ -66,17 +64,15 @@ export const verifyRequest = async (email: string, otp: string) => {
 };
 
 export const resetUserPassword = async (email: string, password: string) => {
-  const user = await User.findOne({ email });
+  const user = await User.findOneAndUpdate(
+    { email },
+    { password: await bcrypt.hash(password, 10) },
+    { new: true }
+  );
 
   if (!user) {
     throw createHttpError(404, "User not found");
   }
 
-  const hashedPassword = await bcrypt.hash(password, 10);
-  user.password = hashedPassword;
-
-  await user.save();
-  const message = "Password reset successfully";
-
-  return { message };
+  return { message: "Password reset successfully" };
 };
