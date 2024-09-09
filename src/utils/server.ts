@@ -24,7 +24,7 @@ const createServer = () => {
   app.use("/api-docs", swaggerUi.serve, swaggerSpec);
 
   app.use("/api/auth", authRoutes);
-  app.use("/api/user", userRoutes);
+  app.use("/api/users", userRoutes);
 
   app.use(notFound);
   app.use(errorHandler);
