@@ -17,9 +17,17 @@ const router = express.Router();
 
 /**
  * @swagger
+ * tags:
+ *   - name: Auth
+ *     description: Authentication related operations
+ */
+
+/**
+ * @swagger
  * /auth/register:
  *   post:
  *     summary: Register a new user
+ *     tags: [Auth]
  *     description: Registers a new user with the provided email and password
  *     requestBody:
  *       required: true
@@ -78,6 +86,7 @@ router.post("/register", validate(registerSchema), createUser);
  * /auth/login:
  *   post:
  *     summary: Login with email and password
+ *     tags: [Auth]
  *     description: Logs in a user with the provided email and password
  *     requestBody:
  *       required: true
@@ -143,6 +152,7 @@ router.post("/login", validate(loginSchema), loginUser);
  * /auth/send-verification-code:
  *   post:
  *     summary: Resend verification code
+ *     tags: [Auth]
  *     description: Resends the verification code to the user's email
  *     requestBody:
  *       required: true
@@ -181,6 +191,7 @@ router.post(
  * /auth/verify-email:
  *   post:
  *     summary: Verify email
+ *     tags: [Auth]
  *     description: Verifies the email address of the user
  *     requestBody:
  *       required: true

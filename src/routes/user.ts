@@ -15,9 +15,17 @@ const router = express.Router();
 
 /**
  * @swagger
+ * tags:
+ *   - name: User
+ *     description: User management operations
+ */
+
+/**
+ * @swagger
  * /user/request-password-reset:
  *   post:
  *     summary: Request password reset
+ *     tags: [User]
  *     description: Requests a password reset for the user with the provided email
  *     requestBody:
  *       required: true
@@ -66,6 +74,7 @@ router.post(
  * /user/verify-password-reset:
  *   post:
  *     summary: Verify password reset
+ *     tags: [User]
  *     description: Verifies the OTP sent to the user's email
  *     requestBody:
  *       required: true
@@ -118,6 +127,7 @@ router.post(
  * /user/password-reset:
  *   patch:
  *     summary: Reset password
+ *     tags: [User]
  *     description: Resets the password for the user with the provided email
  *     requestBody:
  *       required: true
