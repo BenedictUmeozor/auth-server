@@ -11,6 +11,7 @@ import {
   sendCode,
   verifyCode,
 } from "../services/auth";
+import { RequestWithUser } from "../types/global";
 
 export const createUser = async (
   req: express.Request,
@@ -72,6 +73,19 @@ export const verifyEmail = async (
     const { message } = await verifyCode(email, otp);
 
     res.status(200).json({ message });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const logoutUser = async (
+  req: RequestWithUser,
+  res: express.Response,
+  next: express.NextFunction
+) => {
+  try {
+    req.user = null;
+    res.status(200).json({ message: "Logout successful" });
   } catch (error) {
     next(error);
   }

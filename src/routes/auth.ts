@@ -1,11 +1,13 @@
+import { RequestWithUser } from "./../types/global";
 import {
   createUser,
   loginUser,
+  logoutUser,
   sendVerificationCode,
   verifyEmail,
 } from "../controllers/auth";
 import express from "express";
-import { validate } from "../middleware";
+import { validate, verifyToken } from "../middleware";
 import {
   emailResendSchema,
   loginSchema,
@@ -224,5 +226,44 @@ router.post(
  *                   example: Email verified successfully
  */
 router.post("/verify-email", validate(verifyEmailSchema), verifyEmail);
+
+const verifyTokenMiddleware = async (
+  req: express.Request,
+  res: express.Response,
+  next: express.NextFunction
+) => {
+  await verifyToken(req as RequestWithUser, res, next);
+};
+
+const logout = async (
+  req: express.Request,
+  res: express.Response,
+  next: express.NextFunction
+) => {
+  await logoutUser(req as RequestWithUser, res, next);
+};
+
+/**
+ * @swagger
+ * /auth/logout:
+ *   post:
+ *     summary: Logs out an existing user session
+ *     tags: [Auth]
+ *     description: Logs out an existing user session
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: User logged out successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: User logged out successfully
+ */
+router.post("/logout", verifyTokenMiddleware, logout);
 
 export default router;

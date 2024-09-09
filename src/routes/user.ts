@@ -6,12 +6,13 @@ import {
   verifyPasswordRequest,
 } from "../controllers/user";
 import express from "express";
-import { validate } from "../middleware";
+import { validate, verifyToken } from "../middleware";
 import {
   emailResendSchema as passwordResetRequestSchema,
   resetPasswordSchema,
   verifyEmailSchema,
 } from "../utils/schemas";
+import { RequestWithUser } from "../types/global";
 
 const router = express.Router();
 
@@ -118,7 +119,10 @@ router.get("/", getUsers);
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.get("/:id", getUser);
+
+router.use(async (req, res, next) => {
+  await verifyToken(req as RequestWithUser, res, next);
+});
 
 /**
  * @swagger
@@ -275,5 +279,6 @@ router.post(
  *                   example: User not found
  */
 router.patch("/password-reset", validate(resetPasswordSchema), resetPassword);
+router.get("/:id", getUser);
 
 export default router;
