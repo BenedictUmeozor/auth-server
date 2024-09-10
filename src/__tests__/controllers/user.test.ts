@@ -57,7 +57,7 @@ describe("User Controllers", () => {
     it("should get users successfully", async () => {
       (getAllUsers as jest.Mock).mockResolvedValue(mockUsers);
 
-      const response = await request(app).get("/api/users");
+      const response = await request(app).get("/api/user");
 
       expect(response.status).toBe(200);
       expect(getAllUsers).toHaveBeenCalled();
@@ -88,7 +88,7 @@ describe("User Controllers", () => {
 
       (getParticularUser as jest.Mock).mockResolvedValue(mockUser);
 
-      const response = await request(app).get(`/api/users/${mockId}`);
+      const response = await request(app).get(`/api/user/${mockId}`);
 
       expect(response.status).toBe(200);
       expect(getParticularUser).toHaveBeenCalledWith(mockId);
